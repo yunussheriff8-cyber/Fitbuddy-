@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All users - FitBuddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<main class="page top" style="flex-direction: column; align-items: center;">
+  <h1>All users and workout plans</h1>
+
+  <div class="table-wrap">
+    {% if users %}
+    <table>
+      <thead>
+        <tr>
+          <th>User ID</th><th>Name</th><th>Age</th><th>Weight (kg)</th><th>Goal</th><th>Intensity</th>
+          <th>Original plan</th><th>Updated plan</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.weight }}</td>
+          <td>{{ user.goal }}</td>
+          <td>{{ user.intensity }}</td>
+          <td><pre>{{ user.original_plan }}</pre></td>
+          <td><pre>{{ user.updated_plan }}</pre></td>
+          <td>
+            <form action="/delete-user/{{ user.id }}" method="post"
+                  onsubmit="return confirm('Delete {{ user.name|e }} and their plans?');">
+              <button type="submit" class="danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="empty">No users yet. Generate a plan to see it here.</p>
+    {% endif %}
+  </div>
+
+  <div class="nav"><a class="btn ghost" href="/">Back to home</a></div>
+</main>
+</body>
+</html>
